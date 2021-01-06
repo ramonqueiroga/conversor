@@ -1,7 +1,12 @@
 (ns conversor.core
-  (:gen-class))
+    (:require [conversor.formatador :refer [formatar]]
+              [conversor.cambista :refer [obter-cotacao]]
+              [conversor.interpretador-de-opcoes :refer [interpretar-opcoes]])
+    (:gen-class))
 
-(defn -main
-  "I don't do a whole lot ... yet."
+(defn -main 
   [& args]
-  (println "Hello, World!"))
+  (let [{:keys [de para]} (interpretar-opcoes args)]
+    (-> (obter-cotacao de para)
+        (formatar de para)
+        (prn))))
